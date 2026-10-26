@@ -1,707 +1,431 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Calculadora Serrucho • Synthwave PR</title>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Share+Tech+Mono&display=swap');
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Horizonte Boricua • San Juan</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Pacifico&display=swap');
 
-:root {
-  --pink: #ff2a6d;
-  --cyan: #05d9e8;
-  --purple: #d300c5;
-  --orange: #ff6b35;
-  --dark: #0a0a1a;
-  --panel: rgba(15,15,30,0.92);
-}
+    :root {
+      --neon-pink: #ff2a6d;
+      --neon-cyan: #05d9e8;
+      --neon-purple: #d300c5;
+      --neon-orange: #ff9e00;
+      --bg-dark: #0a0015;
+    }
 
-* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
 
-body {
-  font-family: 'Orbitron', sans-serif;
-  background: var(--dark);
-  color: white;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 10px;
-  overflow-x: hidden;
-}
+    body {
+      font-family: 'Orbitron', sans-serif;
+      background: var(--bg-dark);
+      color: white;
+      min-height: 100dvh;
+      overflow-x: hidden;
+      position: relative;
+    }
 
-/* Fondo animado */
-.bg {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  background: radial-gradient(ellipse at bottom, #1a0a2e 0%, #0a0a1a 75%);
-  overflow: hidden;
-}
-.stars {
-  position: absolute; inset:0;
-  background-image: 
-    radial-gradient(2px 2px at 30px 40px, #fff, transparent),
-    radial-gradient(1px 1px at 80px 90px, var(--cyan), transparent),
-    radial-gradient(2px 2px at 150px 60px, var(--pink), transparent),
-    radial-gradient(1px 1px at 220px 140px, #fff, transparent),
-    radial-gradient(2px 2px at 300px 100px, var(--orange), transparent);
-  background-size: 400px 220px;
-  animation: twinkle 4s ease-in-out infinite alternate;
-}
-@keyframes twinkle { 0%{opacity:0.5} 100%{opacity:1} }
+    /* ========== ANIMATED BACKGROUND ========== */
+    .bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      background: linear-gradient(to bottom, #0a0015 0%, #1a0033 40%, #2d0052 70%, #4a0080 100%);
+    }
 
-.grid-floor {
-  position: absolute;
-  bottom: 0; left: -50%; width: 200%; height: 50%;
-  background: 
-    linear-gradient(90deg, rgba(5,217,232,0.2) 1px, transparent 1px),
-    linear-gradient(0deg, rgba(5,217,232,0.2) 1px, transparent 1px);
-  background-size: 45px 45px;
-  transform: perspective(500px) rotateX(60deg);
-  transform-origin: bottom;
-  animation: gridMove 7s linear infinite;
-}
-@keyframes gridMove { 0%{background-position:0 0} 100%{background-position:0 45px} }
+    /* Starfield */
+    .stars {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        radial-gradient(2px 2px at 20px 30px, #fff, transparent),
+        radial-gradient(2px 2px at 40px 70px, #fff, transparent),
+        radial-gradient(1px 1px at 90px 40px, #fff, transparent),
+        radial-gradient(2px 2px at 160px 120px, #fff, transparent),
+        radial-gradient(1px 1px at 230px 80px, #fff, transparent),
+        radial-gradient(2px 2px at 300px 150px, #fff, transparent),
+        radial-gradient(1px 1px at 370px 50px, #fff, transparent),
+        radial-gradient(2px 2px at 450px 180px, #fff, transparent);
+      background-repeat: repeat;
+      background-size: 500px 300px;
+      animation: twinkle 8s infinite alternate;
+      opacity: 0.8;
+    }
 
-.sun {
-  position: absolute;
-  bottom: 42%; left: 50%; transform: translateX(-50%);
-  width: 160px; height: 160px;
-  background: linear-gradient(to bottom, #ffcc00, #ff6b35 40%, #ff2a6d 70%, #d300c5);
-  border-radius: 50%;
-  box-shadow: 0 0 60px var(--pink), 0 0 120px rgba(255,42,109,0.4);
-  opacity: 0.9;
-}
+    @keyframes twinkle {
+      0% { opacity: 0.5; }
+      100% { opacity: 1; }
+    }
 
-/* Contenedor principal */
-.calc-wrapper {
-  position: relative;
-  z-index: 10;
-  width: 100%;
-  max-width: 400px;
-  margin-top: 10px;
-}
+    /* Neon Sun */
+    .sun {
+      position: absolute;
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      background: linear-gradient(to bottom, 
+        #ffcc00 0%, 
+        #ff9e00 25%, 
+        #ff6b00 45%, 
+        #ff2a6d 70%, 
+        #d300c5 100%);
+      left: 50%;
+      bottom: 28%;
+      transform: translateX(-50%);
+      box-shadow: 
+        0 0 60px #ff9e00,
+        0 0 120px #ff2a6d,
+        0 0 180px #d300c5;
+      z-index: 1;
+    }
 
-.device-frame {
-  background: linear-gradient(160deg, #1a1a2e, #0d0d1a);
-  border-radius: 28px;
-  padding: 12px;
-  box-shadow: 
-    0 0 0 3px var(--cyan),
-    0 0 25px var(--cyan),
-    0 0 50px rgba(5,217,232,0.25);
-  animation: frameGlow 3.5s ease-in-out infinite alternate;
-}
-@keyframes frameGlow {
-  0% { box-shadow: 0 0 0 3px var(--cyan), 0 0 20px var(--cyan), 0 0 40px rgba(5,217,232,0.25); }
-  100% { box-shadow: 0 0 0 3px var(--pink), 0 0 25px var(--pink), 0 0 50px rgba(255,42,109,0.35); }
-}
+    .sun::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 18px,
+        rgba(0,0,0,0.35) 18px,
+        rgba(0,0,0,0.35) 28px
+      );
+    }
 
-.screen {
-  background: var(--panel);
-  border-radius: 20px;
-  overflow: hidden;
-  min-height: 680px;
-  display: flex;
-  flex-direction: column;
-}
+    /* Horizon mountains (San Juan / El Yunque vibe) */
+    .mountains {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 32%;
+      background: 
+        linear-gradient(to top, #12002b, transparent),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 300'%3E%3Cpath fill='%230a001a' d='M0,300 L0,180 Q150,80 300,140 T600,100 T900,160 T1200,90 L1200,300 Z'/%3E%3Cpath fill='%0f0025' d='M0,300 L0,220 Q200,140 400,180 T800,130 T1200,170 L1200,300 Z'/%3E%3C/svg%3E");
+      background-size: cover;
+      z-index: 2;
+    }
 
-/* Header / Menu */
-.header {
-  background: linear-gradient(90deg, rgba(5,217,232,0.15), rgba(255,42,109,0.15));
-  padding: 12px 14px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid rgba(5,217,232,0.3);
-}
-.header h1 {
-  font-size: 1rem;
-  background: linear-gradient(90deg, var(--cyan), var(--pink));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  letter-spacing: 1px;
-}
-.menu-btn {
-  background: transparent;
-  border: 1px solid var(--cyan);
-  color: var(--cyan);
-  padding: 6px 12px;
-  border-radius: 8px;
-  font-family: inherit;
-  font-size: 0.75rem;
-  cursor: pointer;
-  box-shadow: 0 0 8px rgba(5,217,232,0.4);
-  transition: all 0.2s;
-}
-.menu-btn:active { transform: scale(0.95); box-shadow: 0 0 15px var(--pink); border-color: var(--pink); color: var(--pink); }
+    /* Perspective Grid */
+    .grid-container {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 45%;
+      perspective: 400px;
+      z-index: 3;
+      overflow: hidden;
+    }
 
-/* Pantallas de modos */
-.mode-screen { display: none; flex: 1; flex-direction: column; }
-.mode-screen.active { display: flex; }
+    .grid {
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      left: -50%;
+      bottom: 0;
+      background-image: 
+        linear-gradient(to right, var(--neon-cyan) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--neon-cyan) 1px, transparent 1px);
+      background-size: 60px 60px;
+      transform: rotateX(75deg);
+      transform-origin: bottom;
+      animation: gridMove 20s linear infinite;
+      opacity: 0.6;
+      mask-image: linear-gradient(to top, black 20%, transparent 95%);
+    }
 
-/* Display */
-.display {
-  background: rgba(0,0,0,0.5);
-  margin: 12px;
-  border-radius: 12px;
-  padding: 14px;
-  text-align: right;
-  min-height: 90px;
-  border: 1px solid rgba(5,217,232,0.3);
-  box-shadow: inset 0 0 20px rgba(5,217,232,0.1);
-  font-family: 'Share Tech Mono', monospace;
-}
-.display .expr { font-size: 0.9rem; color: #888; min-height: 22px; word-break: break-all; }
-.display .result { font-size: 2rem; color: var(--cyan); text-shadow: 0 0 10px var(--cyan); word-break: break-all; }
+    @keyframes gridMove {
+      0% { background-position: 0 0; }
+      100% { background-position: 0 60px; }
+    }
 
-/* Modo Compra tiene display distinto */
-.mode-compra .display { border-color: var(--orange); box-shadow: inset 0 0 20px rgba(255,107,53,0.15); }
-.mode-compra .display .result { color: var(--orange); text-shadow: 0 0 10px var(--orange); }
+    /* ========== UI ========== */
+    .app {
+      position: relative;
+      z-index: 10;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      padding: 20px 16px 40px;
+    }
 
-/* Teclado */
-.keypad {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-  padding: 0 12px 12px;
-}
+    header {
+      text-align: center;
+      margin-bottom: 24px;
+      padding-top: 12px;
+    }
 
-.btn {
-  background: linear-gradient(145deg, #1a1a2e, #12121f);
-  border: 1px solid var(--cyan);
-  color: white;
-  font-family: 'Orbitron', sans-serif;
-  font-size: 1.1rem;
-  font-weight: 600;
-  padding: 16px 8px;
-  border-radius: 12px;
-  cursor: pointer;
-  box-shadow: 0 0 8px rgba(5,217,232,0.3);
-  transition: all 0.15s;
-  user-select: none;
-  position: relative;
-  overflow: hidden;
-}
-.btn:active {
-  transform: scale(0.94);
-  box-shadow: 0 0 18px var(--pink);
-  border-color: var(--pink);
-  color: var(--pink);
-}
-.btn.op { color: var(--pink); border-color: var(--pink); box-shadow: 0 0 8px rgba(255,42,109,0.3); }
-.btn.fn { font-size: 0.75rem; color: var(--cyan); }
-.btn.wide { grid-column: span 2; }
-.btn.equal { background: linear-gradient(145deg, #ff2a6d, #d300c5); border-color: var(--pink); color: white; }
+    .title-main {
+      font-family: 'Pacifico', cursive;
+      font-size: clamp(2.2rem, 8vw, 3.5rem);
+      background: linear-gradient(90deg, #ff2a6d, #05d9e8, #d300c5, #ff9e00);
+      background-size: 300% 100%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientShift 6s ease infinite;
+      text-shadow: 0 0 30px rgba(255,42,109,0.5);
+      line-height: 1.1;
+    }
 
-/* Modo Compra y Salario usan botones más pequeños */
-.extra-panel {
-  padding: 0 12px 12px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-}
-.extra-panel .btn { font-size: 0.8rem; padding: 12px 6px; }
+    .title-sub {
+      font-size: clamp(1.6rem, 6vw, 2.4rem);
+      font-weight: 900;
+      letter-spacing: 6px;
+      color: white;
+      text-shadow: 
+        0 0 10px var(--neon-cyan),
+        0 0 20px var(--neon-cyan),
+        0 0 40px var(--neon-pink);
+      margin-top: -8px;
+    }
 
-/* Inputs en modos especiales */
-.input-group {
-  margin: 8px 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-.input-group label {
-  font-size: 0.7rem;
-  color: #aaa;
-  font-family: 'Share Tech Mono', monospace;
-}
-.input-group input, .input-group select {
-  background: rgba(0,0,0,0.5);
-  border: 1px solid var(--cyan);
-  color: white;
-  padding: 10px;
-  border-radius: 8px;
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 1rem;
-  outline: none;
-}
-.input-group input:focus { box-shadow: 0 0 10px var(--cyan); }
+    .tagline {
+      margin-top: 8px;
+      font-size: 0.85rem;
+      color: var(--neon-cyan);
+      letter-spacing: 2px;
+      opacity: 0.9;
+    }
 
-.toggle-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 12px;
-  font-size: 0.8rem;
-}
-.toggle {
-  width: 46px; height: 24px;
-  background: #333;
-  border-radius: 12px;
-  position: relative;
-  cursor: pointer;
-  border: 1px solid #555;
-}
-.toggle.on { background: var(--cyan); border-color: var(--cyan); }
-.toggle::after {
-  content: '';
-  position: absolute;
-  top: 2px; left: 2px;
-  width: 18px; height: 18px;
-  background: white;
-  border-radius: 50%;
-  transition: 0.2s;
-}
-.toggle.on::after { left: 24px; }
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
 
-.results-box {
-  margin: 8px 12px;
-  background: rgba(0,0,0,0.4);
-  border-radius: 10px;
-  padding: 12px;
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 0.85rem;
-  line-height: 1.5;
-  border: 1px solid rgba(5,217,232,0.2);
-}
-.results-box .big { font-size: 1.2rem; color: var(--cyan); text-shadow: 0 0 8px var(--cyan); }
+    /* App Grid */
+    .apps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 20px;
+      max-width: 900px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 10px 0;
+    }
 
-/* Menú lateral */
-.side-menu {
-  position: fixed;
-  top: 0; right: -280px;
-  width: 280px;
-  height: 100%;
-  background: rgba(10,10,26,0.97);
-  z-index: 100;
-  transition: right 0.3s ease;
-  border-left: 2px solid var(--cyan);
-  box-shadow: -10px 0 30px rgba(0,0,0,0.8);
-  padding: 20px;
-}
-.side-menu.open { right: 0; }
-.side-menu h2 { color: var(--cyan); margin-bottom: 20px; font-size: 1.1rem; }
-.side-menu button {
-  display: block;
-  width: 100%;
-  margin-bottom: 10px;
-  padding: 12px;
-  background: transparent;
-  border: 1px solid var(--cyan);
-  color: white;
-  border-radius: 10px;
-  font-family: inherit;
-  font-size: 0.9rem;
-  cursor: pointer;
-  text-align: left;
-}
-.side-menu button:active, .side-menu button.active {
-  background: rgba(5,217,232,0.15);
-  box-shadow: 0 0 12px var(--cyan);
-}
-.overlay {
-  position: fixed; inset: 0;
-  background: rgba(0,0,0,0.6);
-  z-index: 90;
-  display: none;
-}
-.overlay.show { display: block; }
+    @media (min-width: 600px) {
+      .apps-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 28px;
+      }
+    }
 
-.footer {
-  text-align: center;
-  padding: 8px;
-  font-size: 0.65rem;
-  color: #555;
-  font-family: 'Share Tech Mono', monospace;
-}
-</style>
+    @media (min-width: 900px) {
+      .apps-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    /* App Card */
+    .app-card {
+      background: rgba(10, 0, 30, 0.75);
+      border: 2px solid var(--neon-cyan);
+      border-radius: 20px;
+      padding: 22px 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(8px);
+      box-shadow: 
+        0 0 15px rgba(5, 217, 232, 0.4),
+        inset 0 0 20px rgba(5, 217, 232, 0.1);
+      animation: borderGlow 3s ease-in-out infinite alternate;
+    }
+
+    .app-card:nth-child(2) { animation-delay: 0.3s; border-color: var(--neon-pink); }
+    .app-card:nth-child(3) { animation-delay: 0.6s; border-color: var(--neon-orange); }
+    .app-card:nth-child(4) { animation-delay: 0.9s; border-color: var(--neon-purple); }
+    .app-card:nth-child(5) { animation-delay: 1.2s; }
+    .app-card:nth-child(6) { animation-delay: 1.5s; border-color: var(--neon-pink); }
+    .app-card:nth-child(7) { animation-delay: 1.8s; border-color: var(--neon-orange); }
+    .app-card:nth-child(8) { animation-delay: 2.1s; border-color: var(--neon-purple); }
+
+    @keyframes borderGlow {
+      0% { 
+        box-shadow: 0 0 10px rgba(5, 217, 232, 0.3), inset 0 0 15px rgba(5, 217, 232, 0.05);
+      }
+      100% { 
+        box-shadow: 0 0 25px rgba(5, 217, 232, 0.7), 0 0 40px rgba(211, 0, 197, 0.4), inset 0 0 25px rgba(5, 217, 232, 0.15);
+      }
+    }
+
+    .app-card:active,
+    .app-card:hover {
+      transform: scale(1.06) translateY(-6px);
+      background: rgba(20, 0, 50, 0.9);
+    }
+
+    .app-icon {
+      font-size: 3.2rem;
+      margin-bottom: 12px;
+      filter: drop-shadow(0 0 8px currentColor);
+      display: block;
+    }
+
+    .app-name {
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+
+    .app-desc {
+      font-size: 0.7rem;
+      opacity: 0.75;
+      color: var(--neon-cyan);
+    }
+
+    /* Footer */
+    footer {
+      margin-top: auto;
+      text-align: center;
+      padding-top: 30px;
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.6);
+    }
+
+    footer span {
+      color: var(--neon-pink);
+    }
+
+    /* Floating particles */
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: var(--neon-cyan);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 5;
+      opacity: 0.6;
+    }
+  </style>
 </head>
 <body>
-<div class="bg">
-  <div class="stars"></div>
-  <div class="sun"></div>
-  <div class="grid-floor"></div>
-</div>
-
-<div class="overlay" id="overlay" onclick="closeMenu()"></div>
-
-<div class="side-menu" id="sideMenu">
-  <h2>Menú de Modos</h2>
-  <button onclick="switchMode('normal')" id="btn-normal">🧮 Calculadora Normal</button>
-  <button onclick="switchMode('compra')" id="btn-compra">🛒 Modo Compra (IVU + Serrucho)</button>
-  <button onclick="switchMode('salario')" id="btn-salario">💰 Modo Salario / Nómina</button>
-  <button onclick="alert('¡Pronto! Aquí van más features que tú vas a añadir.')">🚀 Futuro Feature 1</button>
-  <button onclick="alert('Espacio reservado pa\' más cosas jugosas')">🚀 Futuro Feature 2</button>
-  <button onclick="closeMenu()" style="margin-top:30px;border-color:var(--pink);color:var(--pink)">Cerrar</button>
-</div>
-
-<div class="calc-wrapper">
-  <div class="device-frame">
-    <div class="screen">
-      <div class="header">
-        <h1 id="modeTitle">CALCULADORA SERRUCHO</h1>
-        <button class="menu-btn" onclick="openMenu()">MENÚ</button>
-      </div>
-
-      <!-- ========== MODO NORMAL ========== -->
-      <div class="mode-screen active" id="mode-normal">
-        <div class="display">
-          <div class="expr" id="expr">0</div>
-          <div class="result" id="result">0</div>
-        </div>
-        <div class="keypad">
-          <button class="btn fn" onclick="clearAll()">C</button>
-          <button class="btn fn" onclick="backspace()">⌫</button>
-          <button class="btn fn" onclick="append('%')">%</button>
-          <button class="btn op" onclick="append('/')">÷</button>
-
-          <button class="btn" onclick="append('7')">7</button>
-          <button class="btn" onclick="append('8')">8</button>
-          <button class="btn" onclick="append('9')">9</button>
-          <button class="btn op" onclick="append('*')">×</button>
-
-          <button class="btn" onclick="append('4')">4</button>
-          <button class="btn" onclick="append('5')">5</button>
-          <button class="btn" onclick="append('6')">6</button>
-          <button class="btn op" onclick="append('-')">−</button>
-
-          <button class="btn" onclick="append('1')">1</button>
-          <button class="btn" onclick="append('2')">2</button>
-          <button class="btn" onclick="append('3')">3</button>
-          <button class="btn op" onclick="append('+')">+</button>
-
-          <button class="btn wide" onclick="append('0')">0</button>
-          <button class="btn" onclick="append('.')">.</button>
-          <button class="btn equal" onclick="calculate()">=</button>
-        </div>
-      </div>
-
-      <!-- ========== MODO COMPRA ========== -->
-      <div class="mode-screen mode-compra" id="mode-compra">
-        <div class="display">
-          <div class="expr" id="compra-expr">Total de la cuenta</div>
-          <div class="result" id="compra-result">$0.00</div>
-        </div>
-
-        <div class="input-group">
-          <label>Monto de la cuenta ($)</label>
-          <input type="text" id="monto" inputmode="none" readonly onclick="focusInput('monto')" value="">
-        </div>
-
-        <div class="extra-panel">
-          <button class="btn fn" onclick="setActiveInput('monto')">Editar Monto</button>
-          <button class="btn fn" onclick="aplicarIVU()">+ IVU 11.5%</button>
-          <button class="btn fn" onclick="calcularPropina(10)">Propina 10%</button>
-          <button class="btn fn" onclick="calcularPropina(15)">Propina 15%</button>
-          <button class="btn fn" onclick="calcularPropina(18)">Propina 18%</button>
-          <button class="btn fn" onclick="calcularPropina(20)">Propina 20%</button>
-          <button class="btn fn" onclick="aplicarDescuento()">Descuento %</button>
-          <button class="btn fn" style="color:var(--orange);border-color:var(--orange)" onclick="serrucho()">🪓 SERRUCHO</button>
-        </div>
-
-        <div class="results-box" id="compra-details">
-          Aquí salen los desgloses... ¡dale caña!
-        </div>
-
-        <div class="keypad" style="margin-top:auto">
-          <button class="btn" onclick="appendToInput('7')">7</button>
-          <button class="btn" onclick="appendToInput('8')">8</button>
-          <button class="btn" onclick="appendToInput('9')">9</button>
-          <button class="btn fn" onclick="clearInput()">C</button>
-          <button class="btn" onclick="appendToInput('4')">4</button>
-          <button class="btn" onclick="appendToInput('5')">5</button>
-          <button class="btn" onclick="appendToInput('6')">6</button>
-          <button class="btn fn" onclick="backspaceInput()">⌫</button>
-          <button class="btn" onclick="appendToInput('1')">1</button>
-          <button class="btn" onclick="appendToInput('2')">2</button>
-          <button class="btn" onclick="appendToInput('3')">3</button>
-          <button class="btn" onclick="appendToInput('.')">.</button>
-          <button class="btn wide" onclick="appendToInput('0')">0</button>
-          <button class="btn equal" onclick="updateCompraDisplay()">OK</button>
-        </div>
-      </div>
-
-      <!-- ========== MODO SALARIO ========== -->
-      <div class="mode-screen" id="mode-salario">
-        <div class="display">
-          <div class="expr">Modo Salario • Puerto Rico</div>
-          <div class="result" id="salario-result">$0.00</div>
-        </div>
-
-        <div class="input-group">
-          <label>Paga por hora ($)</label>
-          <input type="text" id="hora" inputmode="none" readonly onclick="setActiveInput('hora')" value="">
-        </div>
-        <div class="input-group">
-          <label>Horas por semana</label>
-          <input type="text" id="horas" inputmode="none" readonly onclick="setActiveInput('horas')" value="40">
-        </div>
-
-        <div class="toggle-row">
-          <span>Seguro Social (6.2%)</span>
-          <div class="toggle on" id="toggle-ss" onclick="toggleTax(this,'ss')"></div>
-        </div>
-        <div class="toggle-row">
-          <span>Medicare (1.45%)</span>
-          <div class="toggle on" id="toggle-med" onclick="toggleTax(this,'med')"></div>
-        </div>
-        <div class="toggle-row">
-          <span>Tipo de ingreso</span>
-          <select id="tipoIngreso" onchange="calcularSalario()" style="background:#111;color:white;border:1px solid var(--cyan);padding:4px 8px;border-radius:6px;font-size:0.8rem">
-            <option value="nomina">Nómina</option>
-            <option value="freelance">Freelance</option>
-            <option value="exento">Exento</option>
-          </select>
-        </div>
-
-        <div class="input-group">
-          <label>Retención manual Hacienda (%) - opcional</label>
-          <input type="text" id="retencionManual" inputmode="none" readonly onclick="setActiveInput('retencionManual')" placeholder="Ej: 10" value="">
-        </div>
-
-        <div class="extra-panel">
-          <button class="btn fn" onclick="setActiveInput('hora')">Editar $/hora</button>
-          <button class="btn fn" onclick="setActiveInput('horas')">Editar horas</button>
-          <button class="btn equal" style="grid-column:span 2" onclick="calcularSalario()">Calcular to’ el jangueo</button>
-        </div>
-
-        <div class="results-box" id="salario-details">
-          Pon tu paga por hora y las horas... ¡y mira cuánto te queda pa’l china!
-        </div>
-
-        <div class="keypad" style="margin-top:8px">
-          <button class="btn" onclick="appendToInput('7')">7</button>
-          <button class="btn" onclick="appendToInput('8')">8</button>
-          <button class="btn" onclick="appendToInput('9')">9</button>
-          <button class="btn fn" onclick="clearInput()">C</button>
-          <button class="btn" onclick="appendToInput('4')">4</button>
-          <button class="btn" onclick="appendToInput('5')">5</button>
-          <button class="btn" onclick="appendToInput('6')">6</button>
-          <button class="btn fn" onclick="backspaceInput()">⌫</button>
-          <button class="btn" onclick="appendToInput('1')">1</button>
-          <button class="btn" onclick="appendToInput('2')">2</button>
-          <button class="btn" onclick="appendToInput('3')">3</button>
-          <button class="btn" onclick="appendToInput('.')">.</button>
-          <button class="btn wide" onclick="appendToInput('0')">0</button>
-          <button class="btn equal" onclick="calcularSalario()">OK</button>
-        </div>
-      </div>
-
-      <div class="footer">Hecho con ❤️ en Puerto Rico • Synthwave Vibes</div>
+  <!-- Background -->
+  <div class="bg">
+    <div class="stars"></div>
+    <div class="sun"></div>
+    <div class="mountains"></div>
+    <div class="grid-container">
+      <div class="grid"></div>
     </div>
   </div>
-</div>
 
-<script>
-// ========== ESTADO ==========
-let currentMode = 'normal';
-let expression = '';
-let activeInput = 'monto';
-let taxes = { ss: true, med: true };
+  <!-- Main UI -->
+  <div class="app">
+    <header>
+      <div class="title-main">Interstellar</div>
+      <div class="title-sub">HORIZONTE</div>
+      <div class="tagline">SAN JUAN • BORICUA EDITION • WEPA</div>
+    </header>
 
-// ========== MENÚ ==========
-function openMenu() {
-  document.getElementById('sideMenu').classList.add('open');
-  document.getElementById('overlay').classList.add('show');
-}
-function closeMenu() {
-  document.getElementById('sideMenu').classList.remove('open');
-  document.getElementById('overlay').classList.remove('show');
-}
-function switchMode(mode) {
-  currentMode = mode;
-  document.querySelectorAll('.mode-screen').forEach(s => s.classList.remove('active'));
-  document.getElementById('mode-' + mode).classList.add('active');
-  
-  document.querySelectorAll('.side-menu button').forEach(b => b.classList.remove('active'));
-  document.getElementById('btn-' + mode)?.classList.add('active');
-  
-  const titles = {
-    normal: 'CALCULADORA SERRUCHO',
-    compra: 'MODO COMPRA 🛒',
-    salario: 'MODO SALARIO 💰'
-  };
-  document.getElementById('modeTitle').textContent = titles[mode];
-  closeMenu();
-}
+    <div class="apps-grid">
+      <!-- Calculadora -->
+      <div class="app-card" onclick="alert('¡Calculadora cargando, asere! 🔥')">
+        <span class="app-icon">🧮</span>
+        <div class="app-name">CALCULADORA</div>
+        <div class="app-desc">Pa' los números</div>
+      </div>
 
-// ========== CALCULADORA NORMAL ==========
-function append(val) {
-  if (expression === '0' && val !== '.') expression = '';
-  expression += val;
-  document.getElementById('expr').textContent = expression || '0';
-}
-function clearAll() {
-  expression = '';
-  document.getElementById('expr').textContent = '0';
-  document.getElementById('result').textContent = '0';
-}
-function backspace() {
-  expression = expression.slice(0, -1);
-  document.getElementById('expr').textContent = expression || '0';
-}
-function calculate() {
-  try {
-    let exp = expression.replace(/×/g,'*').replace(/÷/g,'/');
-    let res = Function('"use strict";return (' + exp + ')')();
-    document.getElementById('result').textContent = Number.isInteger(res) ? res : res.toFixed(4);
-    expression = String(res);
-  } catch {
-    document.getElementById('result').textContent = 'Error 💀';
-  }
-}
+      <!-- Radio -->
+      <div class="app-card" onclick="alert('¡Radio Boricua on! Salsa, reggaetón y más...')">
+        <span class="app-icon">📻</span>
+        <div class="app-name">RADIO</div>
+        <div class="app-desc">Salsa & Reggaetón</div>
+      </div>
 
-// ========== INPUTS COMPARTIDOS (teclado en pantalla) ==========
-function setActiveInput(id) {
-  activeInput = id;
-  document.querySelectorAll('input').forEach(i => i.style.borderColor = 'var(--cyan)');
-  const el = document.getElementById(id);
-  if (el) el.style.borderColor = 'var(--pink)';
-}
-function appendToInput(val) {
-  const el = document.getElementById(activeInput);
-  if (!el) return;
-  if (el.value === '0' && val !== '.') el.value = '';
-  el.value += val;
-  if (currentMode === 'compra') updateCompraDisplay();
-}
-function clearInput() {
-  const el = document.getElementById(activeInput);
-  if (el) el.value = '';
-}
-function backspaceInput() {
-  const el = document.getElementById(activeInput);
-  if (el) el.value = el.value.slice(0, -1);
-}
+      <!-- Clima -->
+      <div class="app-card" onclick="alert('Clima en San Juan: 28°C, soleadito, brutal!')">
+        <span class="app-icon">🌤️</span>
+        <div class="app-name">CLIMA</div>
+        <div class="app-desc">San Juan ahora</div>
+      </div>
 
-// ========== MODO COMPRA ==========
-function updateCompraDisplay() {
-  const monto = parseFloat(document.getElementById('monto').value) || 0;
-  document.getElementById('compra-result').textContent = '$' + monto.toFixed(2);
-}
+      <!-- Viejo San Juan -->
+      <div class="app-card" onclick="alert('Mapa del Viejo San Juan listo. ¡A janguear!')">
+        <span class="app-icon">🏰</span>
+        <div class="app-name">VIEJO SJ</div>
+        <div class="app-desc">Calles y fortalezas</div>
+      </div>
 
-function aplicarIVU() {
-  const monto = parseFloat(document.getElementById('monto').value) || 0;
-  const ivu = monto * 0.115;
-  const total = monto + ivu;
-  document.getElementById('compra-details').innerHTML = `
-    Subtotal: $${monto.toFixed(2)}<br>
-    IVU (11.5%): $${ivu.toFixed(2)}<br>
-    <span class="big">Total con IVU: $${total.toFixed(2)}</span>
-  `;
-  document.getElementById('compra-result').textContent = '$' + total.toFixed(2);
-}
+      <!-- Playa -->
+      <div class="app-card" onclick="alert('Condado, Ocean Park, Isla Verde... ¿pa' dónde vamos?')">
+        <span class="app-icon">🏝️</span>
+        <div class="app-name">PLAYAS</div>
+        <div class="app-desc">Pa' refrescarse</div>
+      </div>
 
-function calcularPropina(porc) {
-  const monto = parseFloat(document.getElementById('monto').value) || 0;
-  const propina = monto * (porc/100);
-  const total = monto + propina;
-  document.getElementById('compra-details').innerHTML = `
-    Cuenta: $${monto.toFixed(2)}<br>
-    Propina ${porc}%: $${propina.toFixed(2)}<br>
-    <span class="big">Total a pagar: $${total.toFixed(2)}</span><br>
-    <small>¡Que rico el servicio, verdad!</small>
-  `;
-  document.getElementById('compra-result').textContent = '$' + total.toFixed(2);
-}
+      <!-- Comida -->
+      <div class="app-card" onclick="alert('Mofongo, lechón, alcapurrias... ¡brutal!')">
+        <span class="app-icon">🍲</span>
+        <div class="app-name">COMIDA</div>
+        <div class="app-desc">Sabor boricua</div>
+      </div>
 
-function aplicarDescuento() {
-  const porc = prompt('¿Cuánto por ciento de descuento? (ej: 20)');
-  if (!porc) return;
-  const monto = parseFloat(document.getElementById('monto').value) || 0;
-  const desc = monto * (parseFloat(porc)/100);
-  const total = monto - desc;
-  document.getElementById('compra-details').innerHTML = `
-    Original: $${monto.toFixed(2)}<br>
-    Descuento ${porc}%: -$${desc.toFixed(2)}<br>
-    <span class="big">Precio final: $${total.toFixed(2)}</span>
-  `;
-  document.getElementById('compra-result').textContent = '$' + total.toFixed(2);
-}
+      <!-- Salsa / Música -->
+      <div class="app-card" onclick="alert('¡A bailar salsa! Héctor Lavoe mode activated')">
+        <span class="app-icon">💃</span>
+        <div class="app-name">SALSA</div>
+        <div class="app-desc">Pa' mover el cuerpo</div>
+      </div>
 
-function serrucho() {
-  const personas = prompt('¿Entre cuántos se va a serruchar la cuenta? 🪓');
-  if (!personas || personas < 1) return;
-  const monto = parseFloat(document.getElementById('monto').value) || 0;
-  const cadaUno = monto / parseInt(personas);
-  document.getElementById('compra-details').innerHTML = `
-    Total: $${monto.toFixed(2)}<br>
-    Personas: ${personas}<br>
-    <span class="big">Cada uno paga: $${cadaUno.toFixed(2)}</span><br>
-    <small>¡Serrucho limpio, nadie se queja!</small>
-  `;
-  document.getElementById('compra-result').textContent = '$' + cadaUno.toFixed(2) + ' c/u';
-}
+      <!-- Placeholder extra -->
+      <div class="app-card" onclick="alert('Próximamente... más apps, quédate pendiente, mi gente')">
+        <span class="app-icon">🚀</span>
+        <div class="app-name">MÁS APPS</div>
+        <div class="app-desc">Coming soon</div>
+      </div>
+    </div>
 
-// ========== MODO SALARIO ==========
-function toggleTax(el, type) {
-  el.classList.toggle('on');
-  taxes[type] = el.classList.contains('on');
-  calcularSalario();
-}
+    <footer>
+      Hecho con <span>♥</span> desde el Caribe • <span>¡Wepa!</span> • Horizontes Interstelares Boricuas
+    </footer>
+  </div>
 
-function calcularSalario() {
-  const hora = parseFloat(document.getElementById('hora').value) || 0;
-  const horas = parseFloat(document.getElementById('horas').value) || 0;
-  const tipo = document.getElementById('tipoIngreso').value;
-  const retManual = parseFloat(document.getElementById('retencionManual').value) || 0;
-
-  const semanal = hora * horas;
-  const bisemanal = semanal * 2;
-  const anual = semanal * 52;
-
-  let deducciones = 0;
-  let detalle = '';
-
-  if (tipo === 'exento') {
-    detalle = 'Ingreso exento • No se aplican deducciones federales típicas';
-  } else {
-    if (taxes.ss) {
-      const ss = semanal * 0.062;
-      deducciones += ss;
-      detalle += `Seguro Social (6.2%): -$${ss.toFixed(2)}<br>`;
+  <script>
+    // Simple floating particles
+    function createParticles() {
+      const container = document.querySelector('.bg');
+      for (let i = 0; i < 25; i++) {
+        const p = document.createElement('div');
+        p.classList.add('particle');
+        p.style.left = Math.random() * 100 + '%';
+        p.style.top = Math.random() * 70 + '%';
+        p.style.animation = `float ${4 + Math.random() * 6}s ease-in-out infinite`;
+        p.style.animationDelay = Math.random() * 5 + 's';
+        p.style.background = ['#05d9e8', '#ff2a6d', '#d300c5', '#ff9e00'][Math.floor(Math.random()*4)];
+        container.appendChild(p);
+      }
     }
-    if (taxes.med) {
-      const med = semanal * 0.0145;
-      deducciones += med;
-      detalle += `Medicare (1.45%): -$${med.toFixed(2)}<br>`;
-    }
-    // Hacienda simplificado (aproximado)
-    let hacienda = 0;
-    if (retManual > 0) {
-      hacienda = semanal * (retManual / 100);
-      detalle += `Retención manual Hacienda (${retManual}%): -$${hacienda.toFixed(2)}<br>`;
-    } else if (tipo === 'nomina') {
-      // Aproximación muy simple
-      hacienda = semanal * 0.08; // 8% ejemplo
-      detalle += `Hacienda (aprox 8%): -$${hacienda.toFixed(2)}<br>`;
-    } else if (tipo === 'freelance') {
-      hacienda = semanal * 0.10;
-      detalle += `Hacienda Freelance (aprox 10%): -$${hacienda.toFixed(2)}<br>`;
-    }
-    deducciones += hacienda;
-  }
 
-  const netoSemanal = semanal - deducciones;
-  const netoBisemanal = netoSemanal * 2;
-  const netoAnual = netoSemanal * 52;
+    // Add floating animation
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes float {
+        0%, 100% { transform: translateY(0) scale(1); opacity: 0.4; }
+        50% { transform: translateY(-30px) scale(1.3); opacity: 0.9; }
+      }
+    `;
+    document.head.appendChild(style);
 
-  document.getElementById('salario-result').textContent = '$' + netoSemanal.toFixed(2) + ' / sem';
-  document.getElementById('salario-details').innerHTML = `
-    <strong>Bruto semanal:</strong> $${semanal.toFixed(2)}<br>
-    <strong>Bruto bisemanal:</strong> $${bisemanal.toFixed(2)}<br>
-    <strong>Bruto anual:</strong> $${anual.toFixed(2)}<br><br>
-    ${detalle}<br>
-    <span class="big">Neto semanal: $${netoSemanal.toFixed(2)}</span><br>
-    Neto bisemanal: $${netoBisemanal.toFixed(2)}<br>
-    Neto anual: $${netoAnual.toFixed(2)}<br>
-    <small style="color:#888">*Cálculos aproximados. Consulta un profesional pa’ los números exactos de Hacienda.</small>
-  `;
-}
+    createParticles();
 
-// Inicializar
-setActiveInput('monto');
-</script>
+    // Optional: prevent zoom on double tap (mobile)
+    document.addEventListener('gesturestart', e => e.preventDefault());
+  </script>
 </body>
 </html>
